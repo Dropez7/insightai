@@ -1,0 +1,45 @@
+services:
+  # Serviço do banco de dados
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: insightai
+      POSTGRES_PASSWORD: insightai123
+      POSTGRES_DB: insightai_db
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persiste os dados do banco entre reinicializações do container
+      - insightai_db_data:/var/lib/postgresql/data
+      # Executa automaticamente na primeira inicialização do banco
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U insightai -d insightai_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Serviço do backend (API Node/Express)
+  backend:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: insightai
+      DB_PASSWORD: insightai123
+      DB_NAME: insightai_db
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Persiste os arquivos enviados mesmo se o container for recriado
+      - insightai_uploads:/app/src/uploads
+
+volumes:
+  insightai_db_data:
+  insightai_uploads:
