@@ -1,0 +1,77 @@
+/* ============================================================
+   tokens.css
+   Todo valor de cor, fonte, espaçamento e raio usado na interface
+   passa por aqui. Isso é o que garante consistência visual: em vez
+   de cada componente inventar seu próprio tom de cinza, todos leem
+   das mesmas variáveis. Trocar a identidade visual no futuro vira
+   questão de editar este arquivo, não caçar valores espalhados.
+   ============================================================ */
+
+:root {
+  /* --- Cor: base "tinta" (não é preto puro — tem um leve verde-azulado,
+     como um quadro-negro de laboratório) --- */
+  --bg: #12191b;
+  --bg-elevated: #171f21;
+  --surface: #1b2426;
+  --surface-raised: #212c2f;
+  --border: #2b3639;
+  --border-soft: #223032;
+
+  /* --- Cor: texto --- */
+  --text: #ecece4;
+  --text-muted: #93a19e;
+  --text-faint: #5f6c69;
+
+  /* --- Cor: acento primário — dourado-latão, como o ponteiro de um
+     instrumento de precisão. Usado com moderação: ações principais,
+     destaques, o elemento de assinatura. --- */
+  --accent: #d8a93b;
+  --accent-strong: #eec25c;
+  --accent-soft: rgba(216, 169, 59, 0.12);
+  --accent-border: rgba(216, 169, 59, 0.35);
+
+  /* --- Cor: acento secundário — verde-sálvia, usado em estados de
+     sucesso e como contraponto discreto ao dourado. --- */
+  --accent-2: #6e9c89;
+  --accent-2-soft: rgba(110, 156, 137, 0.14);
+
+  /* --- Cor: perigo/destrutivo --- */
+  --danger: #c1604a;
+  --danger-soft: rgba(193, 96, 74, 0.14);
+
+  /* --- Tipografia --- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* --- Espaçamento (escala de 4px) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* --- Raio e sombra --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+
+  /* --- Transições --- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Respeita a preferência do usuário por menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
