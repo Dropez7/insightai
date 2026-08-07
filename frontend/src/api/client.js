@@ -51,6 +51,7 @@ export const api = {
   },
   datasets: {
     list: (projectId) => request(`/datasets?projectId=${projectId}`),
+    get: (id) => request(`/datasets/${id}`), 
     upload: (formData) => request('/datasets', { method: 'POST', body: formData, isFormData: true }),
     rename: (id, name) => request(`/datasets/${id}`, { method: 'PUT', body: { name } }),
     remove: (id) => request(`/datasets/${id}`, { method: 'DELETE' }),

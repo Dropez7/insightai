@@ -10,6 +10,7 @@
 const path = require('path');
 const fs = require('fs');
 const datasetModel = require('../models/datasetModel');
+const { analyzeCSV } = require('../services/dataProcessor');
 
 // POST /api/datasets  (multipart/form-data, campo "file")
 // Corpo esperado: projectId, name (opcional) + arquivo no campo "file"
@@ -24,6 +25,8 @@ async function createDataset(req, res, next) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado (campo "file").' });
     }
 
+    const profilingData = await analyzeCSV(req.file.path);
+
     const dataset = await datasetModel.create({
       projectId,
       name: name || req.file.originalname, // se não vier nome, usa o nome original
@@ -32,6 +35,7 @@ async function createDataset(req, res, next) {
       filePath: req.file.path,
       sizeBytes: req.file.size,
       mimeType: req.file.mimetype,
+      profiling: profilingData // Passa o JSON inteiro para o banco
     });
 
     return res.status(201).json(dataset);

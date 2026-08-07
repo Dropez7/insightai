@@ -110,10 +110,10 @@ export default function ProjectPage() {
               {datasets.map((d) => (
                 <tr key={d.id}>
                   <td>
-                    <span className="dataset-name">
+                    <Link to={`/datasets/${d.id}`} className="dataset-name" style={{ textDecoration: 'none' }}>
                       <FileUp size={14} strokeWidth={1.75} />
                       {d.name}
-                    </span>
+                    </Link>
                   </td>
                   <td className="mono text-muted">{d.original_filename}</td>
                   <td className="mono">{formatBytes(Number(d.size_bytes))}</td>

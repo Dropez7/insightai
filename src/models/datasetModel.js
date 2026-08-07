@@ -8,20 +8,14 @@
 const pool = require('../config/db');
 
 async function create({
-  projectId,
-  name,
-  originalFilename,
-  storedFilename,
-  filePath,
-  sizeBytes,
-  mimeType,
+  projectId, name, originalFilename, storedFilename, filePath, sizeBytes, mimeType, profiling
 }) {
   const result = await pool.query(
-    `INSERT INTO datasets
-      (project_id, name, original_filename, stored_filename, file_path, size_bytes, mime_type)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO datasets 
+      (project_id, name, original_filename, stored_filename, file_path, size_bytes, mime_type, profiling)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
-    [projectId, name, originalFilename, storedFilename, filePath, sizeBytes, mimeType]
+    [projectId, name, originalFilename, storedFilename, filePath, sizeBytes, mimeType, profiling]
   );
   return result.rows[0];
 }
