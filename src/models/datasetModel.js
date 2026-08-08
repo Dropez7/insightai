@@ -55,4 +55,21 @@ async function remove(id) {
   return result.rows[0] || null;
 }
 
-module.exports = { create, findAll, findById, update, remove };
+// Salva o resultado da análise de IA junto com o timestamp de quando
+// foi gerado. Guardamos isso no banco (em vez de recalcular a cada
+// vez que a tela abre) por dois motivos: performance (a interface
+// não fica esperando a IA responder toda vez) e, principalmente,
+// para não desperdiçar as requisições do plano gratuito da Groq —
+// só chamamos a IA de novo quando a pessoa pedir explicitamente.
+async function saveAiInsights(id, insights) {
+  const result = await pool.query(
+    `UPDATE datasets
+     SET ai_insights = $1, ai_insights_generated_at = NOW()
+     WHERE id = $2
+     RETURNING *`,
+    [insights, id]
+  );
+  return result.rows[0] || null;
+}
+
+module.exports = { create, findAll, findById, update, remove, saveAiInsights };

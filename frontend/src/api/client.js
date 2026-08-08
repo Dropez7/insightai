@@ -55,5 +55,6 @@ export const api = {
     upload: (formData) => request('/datasets', { method: 'POST', body: formData, isFormData: true }),
     rename: (id, name) => request(`/datasets/${id}`, { method: 'PUT', body: { name } }),
     remove: (id) => request(`/datasets/${id}`, { method: 'DELETE' }),
+    generateAiInsights: (id) => request(`/datasets/${id}/ai-insights`, { method: 'POST' }),
   },
 };

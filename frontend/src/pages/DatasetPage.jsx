@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Topbar from '../components/Topbar';
+import AiInsightsPanel from '../components/AiInsightsPanel';
 import { api } from '../api/client';
 import { useToast } from '../context/ToastContext';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -36,7 +37,25 @@ export default function DatasetPage() {
           <p>Nenhuma análise disponível.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            
+
+            {/* Análise por IA (Versão 3) */}
+            <AiInsightsPanel
+              datasetId={dataset.id}
+              initialInsights={dataset.ai_insights}
+              initialGeneratedAt={dataset.ai_insights_generated_at}
+              onGenerate={async (id) => {
+                try {
+                  const updated = await api.datasets.generateAiInsights(id);
+                  setDataset(updated);
+                  show('Análise de IA gerada.', 'success');
+                  return updated;
+                } catch (err) {
+                  show(err.message, 'danger');
+                  throw err;
+                }
+              }}
+            />
+
             {/* Visão Geral */}
             <section>
               <h3>Visão Geral</h3>

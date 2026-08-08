@@ -33,6 +33,12 @@ services:
       DB_USER: insightai
       DB_PASSWORD: insightai123
       DB_NAME: insightai_db
+      # O docker compose lê essas duas variáveis automaticamente do
+      # arquivo .env na raiz do projeto (é um comportamento nativo do
+      # Compose, não precisa de configuração extra) e repassa para
+      # dentro do container.
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_MODEL: ${GROQ_MODEL}
     depends_on:
       db:
         condition: service_healthy
