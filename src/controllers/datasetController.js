@@ -12,8 +12,6 @@ const fs = require('fs');
 const datasetModel = require('../models/datasetModel');
 const { analyzeCSV } = require('../services/dataProcessor');
 
-// POST /api/datasets  (multipart/form-data, campo "file")
-// Corpo esperado: projectId, name (opcional) + arquivo no campo "file"
 async function createDataset(req, res, next) {
   try {
     const { projectId, name } = req.body;
@@ -29,7 +27,7 @@ async function createDataset(req, res, next) {
 
     const dataset = await datasetModel.create({
       projectId,
-      name: name || req.file.originalname, // se não vier nome, usa o nome original
+      name: name || req.file.originalname,
       originalFilename: req.file.originalname,
       storedFilename: req.file.filename,
       filePath: req.file.path,
@@ -87,9 +85,6 @@ async function deleteDataset(req, res, next) {
     const deleted = await datasetModel.remove(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Dataset não encontrado.' });
 
-    // Também removemos o arquivo do disco, para não deixar "lixo" acumulando.
-    // Usamos try/catch isolado aqui porque, mesmo se o arquivo já não existir
-    // fisicamente, a exclusão no banco já foi bem-sucedida e não deve falhar.
     try {
       if (fs.existsSync(deleted.file_path)) {
         fs.unlinkSync(deleted.file_path);

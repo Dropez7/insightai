@@ -5,7 +5,7 @@
 -- AUTOMATICAMENTE na primeira vez que o volume do Postgres é criado
 -- (é assim que a imagem oficial do Postgres funciona). Como o seu
 -- banco já existe, rodar `docker compose up` de novo NÃO vai aplicar
--- as novas colunas sozinho — por isso este script existe: rode ele
+-- as novas colunas sozinho, por isso este script existe: rode ele
 -- manualmente, uma única vez, sobre o banco que já está no ar.
 --
 -- Como rodar (com os containers já de pé, via `docker compose up`):

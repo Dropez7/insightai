@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Topbar from '../components/Topbar';
 import AiInsightsPanel from '../components/AiInsightsPanel';
+import AiAnalysesPanel from '../components/AiAnalysesPanel';
 import { api } from '../api/client';
 import { useToast } from '../context/ToastContext';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -48,6 +49,24 @@ export default function DatasetPage() {
                   const updated = await api.datasets.generateAiInsights(id);
                   setDataset(updated);
                   show('Análise de IA gerada.', 'success');
+                  return updated;
+                } catch (err) {
+                  show(err.message, 'danger');
+                  throw err;
+                }
+              }}
+            />
+
+            {/* Análises compostas + SQL (Versão 4 adiantada) */}
+            <AiAnalysesPanel
+              datasetId={dataset.id}
+              initialAnalyses={dataset.ai_analyses}
+              initialGeneratedAt={dataset.ai_analyses_generated_at}
+              onGenerate={async (id) => {
+                try {
+                  const updated = await api.datasets.generateAiAnalyses(id);
+                  setDataset(updated);
+                  show('Análises compostas geradas.', 'success');
                   return updated;
                 } catch (err) {
                   show(err.message, 'danger');

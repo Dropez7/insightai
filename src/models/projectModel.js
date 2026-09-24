@@ -16,8 +16,6 @@ async function create({ userId, name, description }) {
 }
 
 // Lista projetos. Se userId for passado, filtra só os daquele usuário
-// (isso simula, de forma simples, o isolamento que a Versão 6 -
-// Multi-Tenant vai formalizar de verdade com RBAC/JWT).
 async function findAll(userId) {
   if (userId) {
     const result = await pool.query(

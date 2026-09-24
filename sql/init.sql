@@ -45,18 +45,25 @@ CREATE TABLE IF NOT EXISTS datasets (
     -- uma vez no upload e guardado aqui para não precisar reprocessar
     -- o arquivo toda vez que a tela do dataset é aberta.
     -- JSONB (em vez de JSON) porque o Postgres guarda em formato
-    -- binário indexável — mais rápido para ler, já que não precisamos
+    -- binário indexável, mais rápido para ler, já que não precisamos
     -- fazer buscas complexas dentro desse campo, só ler ele inteiro.
     profiling                 JSONB,
 
     -- Versão 3 (Inteligência Artificial): leitura interpretativa do
     -- profiling acima, gerada por um LLM (resumo, problemas, insights,
     -- correlações hipotéticas, recomendações). Fica NULL até a pessoa
-    -- clicar em "Gerar análise com IA" — não é calculado automaticamente
-    -- no upload, para não gastar requisições do plano gratuito sem
-    -- necessidade.
+    -- clicar em "Gerar análise com IA", não é calculado automaticamente
+    -- no upload, para não gastar requisições do plano gratuito sem necessidade.
     ai_insights                JSONB,
-    ai_insights_generated_at   TIMESTAMP
+    ai_insights_generated_at   TIMESTAMP,
+
+    -- Versão 4: lista de análises compostas sugeridas pela
+    -- IA a partir do profiling (ex: "qual categoria tem melhor média?"),
+    -- já com o SQL gerado E o resultado real de cada consulta, obtido
+    -- rodando esse SQL de verdade contra o arquivo via DuckDB, nunca
+    -- confio apenas no que a IA "diz" que o resultado seria.
+    ai_analyses                JSONB,
+    ai_analyses_generated_at   TIMESTAMP
 );
 
 -- Índices auxiliares para acelerar buscas por dono (chave estrangeira)

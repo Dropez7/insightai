@@ -1,12 +1,3 @@
-// ============================================================
-// server.js
-//
-// Ponto de entrada da aplicação. Aqui montamos o "esqueleto":
-//   - middlewares globais (JSON parser, CORS)
-//   - as rotas de cada recurso (users, projects, datasets)
-//   - o middleware de erro (sempre por ÚLTIMO)
-//   - o start do servidor HTTP
-// ============================================================
 
 require('dotenv').config();
 const express = require('express');
